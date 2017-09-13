@@ -1,3 +1,12 @@
+# Welcome to the webdev-wotton-nikolai repository!
+
+I am a BS/MS student at Northeastern University. I tend to specialize on android apps, but am currently taking a Web Development course for which this repository was made.
+
+This website is hosted on https://webdev-wotton-nikolai.herokuapp.com/
+More links to future projects are soon to come!
+
+See below the original README.md
+
 # AngularFourMEANSeed
 
 After you clone this repository and run "npm install"
