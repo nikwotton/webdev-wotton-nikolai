@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class WidgetEditComponent implements OnInit {
 
-  userId: string;
+  developerId: string;
   websiteId: string;
   pageId: string;
   widgetId: string;
@@ -22,7 +22,7 @@ export class WidgetEditComponent implements OnInit {
     this.activatedRoute.params
       .subscribe(
         (params: any) => {
-          this.userId = params['uid'];
+          this.developerId = params['uid'];
           this.websiteId = params['wid'];
           this.pageId = params['pid'];
           this.widgetId = params['wgid'];
@@ -30,6 +30,11 @@ export class WidgetEditComponent implements OnInit {
           console.log(this.widget);
         }
       );
+  }
+
+  onDelete() {
+    this.widgetService.deleteWidget(this.widgetId);
+    this.router.navigate(['user', this.developerId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
 
 }

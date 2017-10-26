@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PageService} from '../../../services/page.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-page-edit',
@@ -8,6 +9,8 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./page-edit.component.css']
 })
 export class PageEditComponent implements OnInit {
+
+  @ViewChild('f') form: NgForm;
 
   developerId: string;
   websiteId: string;
@@ -31,12 +34,12 @@ export class PageEditComponent implements OnInit {
   }
 
   submit() {
-    const exists = this.page === null;
+    const exists = this.page !== null;
     if (!exists) {
       this.page = [];
     }
-    this.page['name'] = '';
-    this.page['description'] = '';
+    this.page['name'] = this.form.value.name;
+    this.page['description'] = this.form.value.description;
     if (!exists) {
       this.pageService.createPage(this.websiteId, this.page);
     } else {

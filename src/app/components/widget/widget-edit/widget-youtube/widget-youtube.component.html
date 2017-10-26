@@ -12,6 +12,7 @@
   <h5>Width</h5>
   <input type="text"
          class="form-control"/>
-  <a [routerLink]="['..']"
-     class="btn-danger form-control button-top-margin">Delete</a>
+  <button (click)="this.notify.emit()"
+          class="btn-danger form-control button-top-margin">Delete
+  </button>
 </div>

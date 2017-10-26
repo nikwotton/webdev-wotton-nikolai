@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-widget-youtube',
@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WidgetYoutubeComponent implements OnInit {
 
-  constructor() { }
+  @Output() notify: EventEmitter<String> = new EventEmitter<String>();
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

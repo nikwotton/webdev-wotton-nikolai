@@ -6,6 +6,11 @@ body {
 
 .navbar-blue {
   background-color: #4088C4;
+  border: none;
+}
+
+.navbar-link {
+  border: none;
 }
 
 .input-label {

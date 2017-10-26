@@ -310,7 +310,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/page/page-edit/page-edit.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\"\n         class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>Edit Page</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <a type=\"button\" (click)=\"submit()\" class=\"navbar-link\">\n        <span class=\"glyphicon glyphicon-ok\"></span>\n      </a>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container\">\n  <div *ngIf=\"(name.invalid && name.touched) || (title.invalid && title.touched)\"\n       class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" [ngModel]=\"page['name']\" ngModel required name=\"name\" type=\"text\"\n             class=\"form-control\" id=\"name\"\n             placeholder=\"Page Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Page Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input #title=\"ngModel\" [ngModel]=\"page['description']\" ngModel required name=\"title\"\n             type=\"text\" class=\"form-control\"\n             id=\"title\" placeholder=\"Page Title\">\n    </div>\n    <span class=\"help-block\" *ngIf=\"title.invalid && title.touched\">\n      Please enter a Page Title!\n    </span>\n    <button (click)=\"onDelete()\" class=\"btn btn-danger button-top-margin form-control\"\n            type=\"button\">\n      Delete\n    </button>\n  </form>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['../../../..']\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\"\n         class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>Edit Page</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link\">\n        <span class=\"glyphicon glyphicon-ok\"></span>\n      </button>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container\">\n  <div *ngIf=\"(name.invalid && name.touched) || (title.invalid && title.touched)\"\n       class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" [ngModel]=\"page['name']\" ngModel required name=\"name\" type=\"text\"\n             class=\"form-control\" id=\"name\"\n             placeholder=\"Page Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Page Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input #title=\"ngModel\" [ngModel]=\"page['description']\" ngModel required name=\"title\"\n             type=\"text\" class=\"form-control\"\n             id=\"title\" placeholder=\"Page Title\">\n    </div>\n    <span class=\"help-block\" *ngIf=\"title.invalid && title.touched\">\n      Please enter a Page Title!\n    </span>\n    <button (click)=\"onDelete()\" class=\"btn btn-danger button-top-margin form-control\"\n            type=\"button\">\n      Delete\n    </button>\n  </form>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['../../../..']\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -321,6 +321,7 @@ module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_page_service_client__ = __webpack_require__("../../../../../src/app/services/page.service.client.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PageEditComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -331,6 +332,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -352,12 +354,12 @@ var PageEditComponent = (function () {
         });
     };
     PageEditComponent.prototype.submit = function () {
-        var exists = this.page === null;
+        var exists = this.page !== null;
         if (!exists) {
             this.page = [];
         }
-        this.page['name'] = '';
-        this.page['description'] = '';
+        this.page['name'] = this.form.value.name;
+        this.page['description'] = this.form.value.description;
         if (!exists) {
             this.pageService.createPage(this.websiteId, this.page);
         }
@@ -372,16 +374,20 @@ var PageEditComponent = (function () {
     };
     return PageEditComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('f'),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* NgForm */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* NgForm */]) === "function" && _a || Object)
+], PageEditComponent.prototype, "form", void 0);
 PageEditComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'app-page-edit',
         template: __webpack_require__("../../../../../src/app/components/page/page-edit/page-edit.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/page/page-edit/page-edit.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_page_service_client__["a" /* PageService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_page_service_client__["a" /* PageService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_page_service_client__["a" /* PageService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_page_service_client__["a" /* PageService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _d || Object])
 ], PageEditComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=page-edit.component.js.map
 
 /***/ }),
@@ -484,7 +490,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/page/page-new/page-new.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>New Page</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <a type=\"button\" (click)=\"submit()\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok\"></span></a>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container\">\n  <div *ngIf=\"(name.invalid && name.touched) || (title.invalid && title.touched)\"\n       class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" ngModel required name=\"name\" type=\"text\" class=\"form-control\" id=\"name\"\n             placeholder=\"Page Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Page Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input #title=\"ngModel\" ngModel required name=\"title\" type=\"text\" class=\"form-control\" id=\"title\" placeholder=\"Page Title\">\n    </div>\n    <span class=\"help-block\" *ngIf=\"title.invalid && title.touched\">\n      Please enter a Page Title!\n    </span>\n  </form>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>New Page</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok\"></span></button>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container\">\n  <div *ngIf=\"(name.invalid && name.touched) || (title.invalid && title.touched)\"\n       class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" ngModel required name=\"name\" type=\"text\" class=\"form-control\" id=\"name\"\n             placeholder=\"Page Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Page Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input #title=\"ngModel\" ngModel required name=\"title\" type=\"text\" class=\"form-control\" id=\"title\" placeholder=\"Page Title\">\n    </div>\n    <span class=\"help-block\" *ngIf=\"title.invalid && title.touched\">\n      Please enter a Page Title!\n    </span>\n  </form>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -751,7 +757,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/user/profile/profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar-blue navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b class=\"white\">Profile</b>\n      </a>\n    </p>\n\n    <!--tick mark-->\n    <p class=\"navbar-text pull-right\">\n      <a type=\"button\" (click)=\"submit()\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n\n\n<div class=\"container\">\n  <div *ngIf=\"(username.invalid && username.touched) ||\n              (email.invalid && email.touched) ||\n              (firstName.invalid && firstName.touched) ||\n              (lastName.invalid && lastName.touched) ||\n               errorFlag\" class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"username\">Username</label>\n      <input placeholder=\"username\"\n             [ngModel]=\"user.username\"\n             name=\"username\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"username\"\n             ngModel\n             required\n             #username=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"username.invalid && username.touched\">\n        Please enter a username!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"email\">Email</label>\n      <input placeholder=\"email\"\n             [ngModel]=\"user.email\"\n             name=\"email\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"email\"\n             ngModel\n             required\n             email\n             #email=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"email.invalid && email.touched\">\n        Please enter an email!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"firstName\">First Name</label>\n      <input placeholder=\"First Name\"\n             [ngModel]=\"user.firstName\"\n             name=\"firstName\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"firstName\"\n             ngModel\n             required\n             #firstName=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"firstName.invalid && firstName.touched\">\n        Please enter a First Name!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"lastName\">Last Name</label>\n      <input placeholder=\"lastName\"\n             [ngModel]=\"user.lastName\"\n             name=\"lastName\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"lastName\"\n             ngModel\n             required\n             #lastName=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"!lastName.valid && lastName.touched\">\n        Please enter a Last Name!\n      </span>\n    </div>\n  </form>\n  <a [routerLink]=\"['/user', userId, 'website']\" class=\"btn btn-primary btn-block\">Websites</a>\n  <a [routerLink]=\"['/login']\" class=\"btn btn-danger btn-block \">Logout</a>\n\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar-blue navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span class=\"glyphicon glyphicon-user white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar-blue navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b class=\"white\">Profile</b>\n      </a>\n    </p>\n\n    <!--tick mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link navbar-blue\"><span\n        class=\"glyphicon glyphicon-ok white\"></span></button>\n    </p>\n\n  </div>\n</nav>\n\n\n<div class=\"container\">\n  <div *ngIf=\"(username.invalid && username.touched) ||\n              (email.invalid && email.touched) ||\n              (firstName.invalid && firstName.touched) ||\n              (lastName.invalid && lastName.touched) ||\n               errorFlag\" class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"username\">Username</label>\n      <input placeholder=\"username\"\n             [ngModel]=\"user.username\"\n             name=\"username\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"username\"\n             ngModel\n             required\n             #username=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"username.invalid && username.touched\">\n        Please enter a username!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"email\">Email</label>\n      <input placeholder=\"email\"\n             [ngModel]=\"user.email\"\n             name=\"email\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"email\"\n             ngModel\n             required\n             email\n             #email=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"email.invalid && email.touched\">\n        Please enter an email!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"firstName\">First Name</label>\n      <input placeholder=\"First Name\"\n             [ngModel]=\"user.firstName\"\n             name=\"firstName\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"firstName\"\n             ngModel\n             required\n             #firstName=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"firstName.invalid && firstName.touched\">\n        Please enter a First Name!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"lastName\">Last Name</label>\n      <input placeholder=\"lastName\"\n             [ngModel]=\"user.lastName\"\n             name=\"lastName\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"lastName\"\n             ngModel\n             required\n             #lastName=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"!lastName.valid && lastName.touched\">\n        Please enter a Last Name!\n      </span>\n    </div>\n  </form>\n  <a [routerLink]=\"['/user', userId, 'website']\" class=\"btn btn-primary btn-block\">Websites</a>\n  <a [routerLink]=\"['/login']\" class=\"btn btn-danger btn-block \">Logout</a>\n\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar-blue navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span class=\"glyphicon glyphicon-user white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -944,7 +950,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/website/website-edit/website-edit.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar-blue navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left white\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b class=\"white\">Edit Website</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <a type=\"button\" (click)=\"submit()\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n  <div class=\"col-sm-4 hidden-xs\">\n    <ul class=\"list-group\">\n      <li class=\"list-group-item borderless\" *ngFor=\"let w of websites\">\n        <a [routerLink]=\"['/user', userId, 'website', w._id, 'page']\">\n          {{w.name}}\n        </a>\n        <a [routerLink]=\"['..', w._id]\" class=\"pull-right\"><span\n          class=\"glyphicon glyphicon-cog\"></span></a>\n      </li>\n    </ul>\n  </div>\n  <div class=\"col-sm-8 \">\n    <div *ngIf=\"(name.invalid && name.touched) || (description.invalid && description.invalid)\"\n         class=\"alert alert-danger\">\n      You have an error\n    </div>\n    <form #f=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"name\">Website Name</label>\n        <input #name=\"ngModel\" [ngModel]=\"website.name\" ngModel required name=\"name\" type=\"text\"\n               class=\"form-control\" id=\"name\" placeholder=\"Website Name\">\n        <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n          Please enter a Website Name!\n        </span>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"description\">Website Description</label>\n        <textarea #description=\"ngModel\" [ngModel]=\"website.description\" ngModel required name=\"description\" type=\"text\"\n                  class=\"form-control\" id=\"description\" placeholder=\"Website Description\" rows=\"3\"></textarea>\n        <span class=\"help-block\" *ngIf=\"description.invalid && description.touched\">\n          Please enter a Website Description!\n        </span>\n      </div>\n    </form>\n    <a (click)=\"onDelete()\" class=\"btn-danger form-control button-top-margin\">Delete\n    </a>\n  </div>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar-blue navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span\n        class=\"glyphicon glyphicon-user white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar-blue navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left white\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b class=\"white\">Edit Website</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link navbar-blue\"><span\n        class=\"glyphicon glyphicon-ok white\"></span></button>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n  <div class=\"col-sm-4 hidden-xs\">\n    <ul class=\"list-group\">\n      <li class=\"list-group-item borderless\" *ngFor=\"let w of websites\">\n        <a [routerLink]=\"['/user', userId, 'website', w._id, 'page']\">\n          {{w.name}}\n        </a>\n        <a [routerLink]=\"['..', w._id]\" class=\"pull-right\"><span\n          class=\"glyphicon glyphicon-cog\"></span></a>\n      </li>\n    </ul>\n  </div>\n  <div class=\"col-sm-8 \">\n    <div *ngIf=\"(name.invalid && name.touched) || (description.invalid && description.invalid)\"\n         class=\"alert alert-danger\">\n      You have an error\n    </div>\n    <form #f=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"name\">Website Name</label>\n        <input #name=\"ngModel\" [ngModel]=\"website.name\" ngModel required name=\"name\" type=\"text\"\n               class=\"form-control\" id=\"name\" placeholder=\"Website Name\">\n        <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n          Please enter a Website Name!\n        </span>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"description\">Website Description</label>\n        <textarea #description=\"ngModel\" [ngModel]=\"website.description\" ngModel required name=\"description\" type=\"text\"\n                  class=\"form-control\" id=\"description\" placeholder=\"Website Description\" rows=\"3\"></textarea>\n        <span class=\"help-block\" *ngIf=\"description.invalid && description.touched\">\n          Please enter a Website Description!\n        </span>\n      </div>\n    </form>\n    <a (click)=\"onDelete()\" class=\"btn-danger form-control button-top-margin\">Delete\n    </a>\n  </div>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar-blue navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span\n        class=\"glyphicon glyphicon-user white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -1112,7 +1118,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/website/website-new/website-new.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar-blue navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left white\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b class=\"white\">New Website</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <a type=\"button\" (click)=\"submit()\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n  <div class=\"container-fluid col-sm-4 hidden-xs\">\n    <ul class=\"list-group\">\n      <li class=\"list-group-item borderless\" *ngFor=\"let w of websites\">\n        <a [routerLink]=\"['/user', userId, 'website', w._id, 'page']\">\n          {{w.name}}\n        </a>\n        <a [routerLink]=\"['..', w._id]\" class=\"pull-right\"><span\n          class=\"glyphicon glyphicon-cog\"></span></a>\n      </li>\n    </ul>\n  </div>\n  <div class=\"col-sm-8 \">\n    <div *ngIf=\"(name.invalid && name.touched) || (description.invalid && description.touched)\"\n         class=\"alert alert-danger\">\n      You have an error\n    </div>\n    <form #f=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"name\">Website Name</label>\n        <input #name=\"ngModel\" ngModel required name=\"name\" type=\"text\"\n               class=\"form-control\" id=\"name\" placeholder=\"Website Name\">\n        <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n          Please enter a Website Name!\n        </span>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"description\">Website Description</label>\n        <textarea #description=\"ngModel\" ngModel required name=\"description\" type=\"text\"\n                  class=\"form-control\" id=\"description\" placeholder=\"Website Description\"\n                  rows=\"3\"></textarea>\n        <span class=\"help-block\" *ngIf=\"description.invalid && description.touched\">\n          Please enter a Website Description!\n        </span>\n      </div>\n    </form>\n  </div>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar-blue navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span\n        class=\"glyphicon glyphicon-user white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar-blue navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left white\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b class=\"white\">New Website</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link navbar-blue\"><span\n        class=\"glyphicon glyphicon-ok white\"></span></button>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container-fluid\">\n  <div class=\"container-fluid col-sm-4 hidden-xs\">\n    <ul class=\"list-group\">\n      <li class=\"list-group-item borderless\" *ngFor=\"let w of websites\">\n        <a [routerLink]=\"['/user', userId, 'website', w._id, 'page']\">\n          {{w.name}}\n        </a>\n        <a [routerLink]=\"['..', w._id]\" class=\"pull-right\"><span\n          class=\"glyphicon glyphicon-cog\"></span></a>\n      </li>\n    </ul>\n  </div>\n  <div class=\"col-sm-8 \">\n    <div *ngIf=\"(name.invalid && name.touched) || (description.invalid && description.touched)\"\n         class=\"alert alert-danger\">\n      You have an error\n    </div>\n    <form #f=\"ngForm\">\n      <div class=\"form-group\">\n        <label for=\"name\">Website Name</label>\n        <input #name=\"ngModel\" ngModel required name=\"name\" type=\"text\"\n               class=\"form-control\" id=\"name\" placeholder=\"Website Name\">\n        <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n          Please enter a Website Name!\n        </span>\n      </div>\n      <div class=\"form-group\">\n        <label for=\"description\">Website Description</label>\n        <textarea #description=\"ngModel\" ngModel required name=\"description\" type=\"text\"\n                  class=\"form-control\" id=\"description\" placeholder=\"Website Description\"\n                  rows=\"3\"></textarea>\n        <span class=\"help-block\" *ngIf=\"description.invalid && description.touched\">\n          Please enter a Website Description!\n        </span>\n      </div>\n    </form>\n  </div>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar-blue navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user', userId]\"><span\n        class=\"glyphicon glyphicon-user white\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -1278,7 +1284,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/widget/widget-edit/widget-edit.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>Widget Edit</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user/42/website/:wid/page/42/widget']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok\"></span></a>\n    </p>\n\n  </div>\n</nav>\n\n<div [ngSwitch]=\"widget.widgetType\">\n\n  <div *ngSwitchCase=\"'HEADER'\">\n    <app-widget-header></app-widget-header>\n  </div>\n\n  <div *ngSwitchCase=\"'IMAGE'\">\n    <app-widget-image></app-widget-image>\n  </div>\n\n  <div *ngSwitchCase=\"'YOUTUBE'\">\n    <app-widget-youtube></app-widget-youtube>\n  </div>\n\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user/42']\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\" class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>Widget Edit</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" [routerLink]=\"['/user/42/website/:wid/page/42/widget']\"\n              class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-ok\"></span></button>\n    </p>\n\n  </div>\n</nav>\n\n<div [ngSwitch]=\"widget.widgetType\">\n\n  <div *ngSwitchCase=\"'HEADER'\">\n    <app-widget-header (notify)=\"onDelete()\"></app-widget-header>\n  </div>\n\n  <div *ngSwitchCase=\"'IMAGE'\">\n    <app-widget-image (notify)=\"onDelete()\"></app-widget-image>\n  </div>\n\n  <div *ngSwitchCase=\"'YOUTUBE'\">\n    <app-widget-youtube (notify)=\"onDelete()\"></app-widget-youtube>\n  </div>\n\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['/user/42']\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -1312,13 +1318,17 @@ var WidgetEditComponent = (function () {
         var _this = this;
         this.activatedRoute.params
             .subscribe(function (params) {
-            _this.userId = params['uid'];
+            _this.developerId = params['uid'];
             _this.websiteId = params['wid'];
             _this.pageId = params['pid'];
             _this.widgetId = params['wgid'];
             _this.widget = _this.widgetService.findWidgetById(_this.widgetId);
             console.log(_this.widget);
         });
+    };
+    WidgetEditComponent.prototype.onDelete = function () {
+        this.widgetService.deleteWidget(this.widgetId);
+        this.router.navigate(['user', this.developerId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
     };
     return WidgetEditComponent;
 }());
@@ -1357,7 +1367,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/widget/widget-edit/widget-header/widget-header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <h5>Name</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <h5>Text</h5>\n  <input placeholder=\"Text\"\n         type=\"text\"\n         class=\"form-control\"/>\n  <h5>Size</h5>\n  <input type=\"number\"\n         placeholder=\"1-6\"\n         class=\"form-control\"/>\n  <a [routerLink]=\"['..']\"\n     class=\"btn-danger form-control button-top-margin\">Delete</a>\n</div>\n"
+module.exports = "<div class=\"container-fluid\">\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" [ngModel]=\"widget['name']\" ngModel required name=\"name\" type=\"text\"\n             class=\"form-control\" id=\"name\" placeholder=\"Widget Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Widget Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"text\">Text</label>\n      <input #text=\"ngModel\" [ngModel]=\"widget['text']\" ngModel required name=\"text\" type=\"text\"\n             class=\"form-control\" id=\"text\" placeholder=\"Widget Text\">\n      <span class=\"help-block\" *ngIf=\"text.invalid && text.touched\">\n        Please enter Widget Text!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"size\">Size</label>\n      <input #size=\"ngModel\" [ngModel]=\"widget['size']\" ngModel required name=\"size\" type=\"number\"\n             class=\"form-control\" id=\"size\" placeholder=\"1-6\">\n      <span class=\"help-block\" *ngIf=\"size.invalid && size.touched\">\n        Please enter a valid header size from 1 - 6!\n      </span>\n    </div>\n    <button (click)=\"this.notify.emit()\"\n            class=\"btn-danger form-control button-top-margin\">Delete\n    </button>\n  </form>\n</div>\n"
 
 /***/ }),
 
@@ -1366,6 +1376,8 @@ module.exports = "<div class=\"container-fluid\">\n  <h5>Name</h5>\n  <input typ
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_widget_service_client__ = __webpack_require__("../../../../../src/app/services/widget.service.client.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WidgetHeaderComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1377,22 +1389,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var WidgetHeaderComponent = (function () {
-    function WidgetHeaderComponent() {
+    function WidgetHeaderComponent(widgetService, activatedRoute, router) {
+        this.widgetService = widgetService;
+        this.activatedRoute = activatedRoute;
+        this.router = router;
+        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]();
+        this.widget = {};
     }
     WidgetHeaderComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.activatedRoute.params.subscribe(function (params) {
+            _this.developerId = params['uid'];
+            _this.websiteId = params['wid'];
+            _this.pageId = params['pid'];
+            _this.widgetId = params['wgid'];
+            _this.widget = _this.widgetService.findWidgetById(_this.widgetId);
+        });
     };
     return WidgetHeaderComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]) === "function" && _a || Object)
+], WidgetHeaderComponent.prototype, "notify", void 0);
 WidgetHeaderComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'app-widget-header',
         template: __webpack_require__("../../../../../src/app/components/widget/widget-edit/widget-header/widget-header.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/widget/widget-edit/widget-header/widget-header.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_widget_service_client__["a" /* WidgetService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_widget_service_client__["a" /* WidgetService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _d || Object])
 ], WidgetHeaderComponent);
 
+var _a, _b, _c, _d;
 //# sourceMappingURL=widget-header.component.js.map
 
 /***/ }),
@@ -1418,7 +1450,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/widget/widget-edit/widget-image/widget-image.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <h5>Name</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <h5>Text</h5>\n  <input placeholder=\"Text\"\n         type=\"text\"\n         class=\"form-control\"/>\n  <h5>URL</h5>\n  <input type=\"url\"\n         value=\"https://i.kinja-img.com/gawker-media/image/upload/s--47gmJqRi--/c_scale,fl_progressive,q_80,w_800/dw3l4m5ulgn6qqlhr7om.png\"\n         class=\"form-control\"/>\n  <h5>Width</h5>\n  <input type=\"text\"\n         value=\"100%\"\n         class=\"form-control\"/>\n  <h5>Upload</h5>\n  <input type=\"file\"\n         class=\"form-control file-upload\"/>\n  <a class=\"btn form-control button-top-margin navbar-blue\"\n     type=\"button\">Upload Image\n  </a>\n  <a [routerLink]=\"['..']\"\n     class=\"btn-danger form-control button-top-margin\">Delete</a>\n</div>\n"
+module.exports = "<div class=\"container-fluid\">\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" [ngModel]=\"widget['name']\" ngModel required name=\"name\" type=\"text\"\n             class=\"form-control\" id=\"name\" placeholder=\"Widget Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Widget Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"text\">Text</label>\n      <input #text=\"ngModel\" [ngModel]=\"widget['text']\" ngModel required name=\"text\" type=\"text\"\n             class=\"form-control\" id=\"text\" placeholder=\"Widget Text\">\n      <span class=\"help-block\" *ngIf=\"text.invalid && text.touched\">\n        Please enter Widget Text!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"url\">URL</label>\n      <input #url=\"ngModel\" [ngModel]=\"widget['url']\" ngModel name=\"name\" type=\"url\"\n             class=\"form-control\" id=\"url\" placeholder=\"Widget Url\">\n    </div>\n    <div class=\"form-group\">\n      <label for=\"width\">Width</label>\n      <input #width=\"ngModel\" [ngModel]=\"widget['width']\" ngModel required name=\"width\"\n             type=\"number\"\n             class=\"form-control\" id=\"width\" placeholder=\"Widget Width 1-100\">\n      <span class=\"help-block\" *ngIf=\"width.invalid && width.touched\">\n        Please enter a width percent from 1 - 100\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"upload\">Upload</label>\n      <input #upload=\"ngModel\" ngModel name=\"upload\" type=\"file\"\n             class=\"form-control\" id=\"upload\">\n      <button class=\"btn form-control button-top-margin navbar-blue\">Upload Image</button>\n    </div>\n    <button (click)=\"this.notify.emit()\"\n            class=\"btn-danger form-control button-top-margin\">Delete\n    </button>\n  </form>\n</div>\n"
 
 /***/ }),
 
@@ -1427,6 +1459,8 @@ module.exports = "<div class=\"container-fluid\">\n  <h5>Name</h5>\n  <input typ
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_widget_service_client__ = __webpack_require__("../../../../../src/app/services/widget.service.client.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WidgetImageComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1438,22 +1472,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var WidgetImageComponent = (function () {
-    function WidgetImageComponent() {
+    function WidgetImageComponent(widgetService, activatedRoute, router) {
+        this.widgetService = widgetService;
+        this.activatedRoute = activatedRoute;
+        this.router = router;
+        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]();
+        this.widget = {};
     }
     WidgetImageComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.activatedRoute.params.subscribe(function (params) {
+            _this.developerId = params['uid'];
+            _this.websiteId = params['wid'];
+            _this.pageId = params['pid'];
+            _this.widgetId = params['wgid'];
+            _this.widget = _this.widgetService.findWidgetById(_this.widgetId);
+        });
     };
     return WidgetImageComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]) === "function" && _a || Object)
+], WidgetImageComponent.prototype, "notify", void 0);
 WidgetImageComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'app-widget-image',
         template: __webpack_require__("../../../../../src/app/components/widget/widget-edit/widget-image/widget-image.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/widget/widget-edit/widget-image/widget-image.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_widget_service_client__["a" /* WidgetService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_widget_service_client__["a" /* WidgetService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _d || Object])
 ], WidgetImageComponent);
 
+var _a, _b, _c, _d;
 //# sourceMappingURL=widget-image.component.js.map
 
 /***/ }),
@@ -1479,7 +1533,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/widget/widget-edit/widget-youtube/widget-youtube.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <h5>Name</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <h5>Text</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <h5>URL</h5>\n  <input type=\"url\"\n         value=\"https://www.youtube.com/embed/uLWLashCXHE\"\n         class=\"form-control\"/>\n  <h5>Width</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <a [routerLink]=\"['..']\"\n     class=\"btn-danger form-control button-top-margin\">Delete</a>\n</div>\n"
+module.exports = "<div class=\"container-fluid\">\n  <h5>Name</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <h5>Text</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <h5>URL</h5>\n  <input type=\"url\"\n         value=\"https://www.youtube.com/embed/uLWLashCXHE\"\n         class=\"form-control\"/>\n  <h5>Width</h5>\n  <input type=\"text\"\n         class=\"form-control\"/>\n  <button (click)=\"this.notify.emit()\"\n          class=\"btn-danger form-control button-top-margin\">Delete\n  </button>\n</div>\n"
 
 /***/ }),
 
@@ -1501,11 +1555,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var WidgetYoutubeComponent = (function () {
     function WidgetYoutubeComponent() {
+        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]();
     }
     WidgetYoutubeComponent.prototype.ngOnInit = function () {
     };
     return WidgetYoutubeComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]) === "function" && _a || Object)
+], WidgetYoutubeComponent.prototype, "notify", void 0);
 WidgetYoutubeComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
         selector: 'app-widget-youtube',
@@ -1515,6 +1574,7 @@ WidgetYoutubeComponent = __decorate([
     __metadata("design:paramtypes", [])
 ], WidgetYoutubeComponent);
 
+var _a;
 //# sourceMappingURL=widget-youtube.component.js.map
 
 /***/ }),
