@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Sanitizer} from '@angular/core';
 import {WidgetService} from '../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-widget-list',
@@ -14,7 +15,8 @@ export class WidgetListComponent implements OnInit {
   pageId: string;
   widgets: any;
 
-  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute,
+              private router: Router, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {

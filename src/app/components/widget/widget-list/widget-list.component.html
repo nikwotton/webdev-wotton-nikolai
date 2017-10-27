@@ -27,8 +27,8 @@
   <ul class="list-group">
     <li class="list-group-item borderless header-text row" *ngFor="let widget of widgets">
       <div class="inline truncate col-xs-8">
-        <div [ngSwitch]="widget.type">
-          <div *ngSwitchCase="'Header'">
+        <div [ngSwitch]="widget.widgetType">
+          <div *ngSwitchCase="'HEADER'">
             <div [ngSwitch]="widget.size">
               <div *ngSwitchCase="1">
                 <h1>
@@ -45,7 +45,7 @@
                   {{widget.text}}
                 </h3>
               </div>
-              <div *ngSwitchCase="4">
+              <div *ngSwitchCase=4>
                 <h4>
                   {{widget.text}}
                 </h4>
@@ -62,10 +62,12 @@
               </div>
             </div>
           </div>
-          <div *ngSwitchCase="'YouTube'">
-            <iframe src="{{widget.url}}" width="{{widget.width}}" frameborder="0" allowfullscreen></iframe>
+          <div *ngSwitchCase="'YOUTUBE'">
+            <iframe width="{{widget.width}}" height="{{widget.height}}"
+                    [src]='sanitizer.bypassSecurityTrustResourceUrl(widget.url)' frameborder="0"
+                    gesture="media" allowfullscreen></iframe>
           </div>
-          <div *ngSwitchCase="'Image'">
+          <div *ngSwitchCase="'IMAGE'">
             <img width="{{widget.width}}"
                  src="{{widget.url}}">
           </div>

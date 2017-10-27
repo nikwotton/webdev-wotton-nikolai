@@ -15,7 +15,8 @@ module.exports = function (app) {
       '_id': '678',
       'widgetType': 'YOUTUBE',
       'pageId': '321',
-      'width': '100%',
+      'width': '854',
+      'height': '480',
       'url': 'https://youtu.be/AM2Ivdi9c4E'
     },
     {'_id': '789', 'widgetType': 'HTML', 'pageId': '321', 'text': '<p>Lorem ipsum</p>'}

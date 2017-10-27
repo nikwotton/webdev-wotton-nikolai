@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-widget-header',
@@ -8,6 +9,8 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./widget-header.component.css']
 })
 export class WidgetHeaderComponent implements OnInit {
+
+  @ViewChild('f') form: NgForm;
 
   @Output() notify: EventEmitter<String> = new EventEmitter<String>();
 
@@ -32,4 +35,10 @@ export class WidgetHeaderComponent implements OnInit {
     });
   }
 
+  getWidget() {
+    this.widget['name'] = this.form.value.name;
+    this.widget['text'] = this.form.value.text;
+    this.widget['size'] = this.form.value.size;
+    return this.widget;
+  }
 }

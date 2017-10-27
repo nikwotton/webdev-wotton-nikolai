@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-widget-image',
@@ -8,6 +9,8 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./widget-image.component.css']
 })
 export class WidgetImageComponent implements OnInit {
+
+  @ViewChild('f') form: NgForm;
 
   @Output() notify: EventEmitter<String> = new EventEmitter<String>();
 
@@ -32,4 +35,11 @@ export class WidgetImageComponent implements OnInit {
     });
   }
 
+  getWidget() {
+    this.widget['name'] = this.form.value.name;
+    this.widget['text'] = this.form.value.text;
+    this.widget['url'] = this.form.value.url;
+    this.widget['width'] = this.form.value.width;
+    return this.widget;
+  }
 }

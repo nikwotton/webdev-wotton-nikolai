@@ -1,13 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {WidgetService} from '../../../services/widget.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-widget-edit',
   templateUrl: './widget-edit.component.html',
   styleUrls: ['./widget-edit.component.css']
 })
-export class WidgetEditComponent implements OnInit {
+export class WidgetEditComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('ref') child;
 
   developerId: string;
   websiteId: string;
@@ -33,9 +36,18 @@ export class WidgetEditComponent implements OnInit {
       );
   }
 
+  ngAfterViewInit(): void {
+  }
+
   onDelete() {
     this.widgetService.deleteWidget(this.widgetId).subscribe(() => {
     });
     this.router.navigate(['user', this.developerId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
+  }
+
+  submit() {
+    this.widget = this.child.getWidget();
+    this.widgetService.updateWidget(this.widgetId, this.widget).subscribe((data: any) => {});
+    return this.router.navigate(['user', this.developerId, 'website', this.websiteId, 'page', this.pageId, 'widget'])
   }
 }
