@@ -15,7 +15,7 @@ export class PageEditComponent implements OnInit {
   developerId: string;
   websiteId: string;
   pageId: string;
-  page: any;
+  page = {};
   errorMsg = 'Please enter a name and title!';
 
   constructor(private pageService: PageService, private activatedRoute: ActivatedRoute, private router: Router) {
@@ -28,7 +28,9 @@ export class PageEditComponent implements OnInit {
           this.developerId = params['uid'];
           this.websiteId = params['wid'];
           this.pageId = params['pid'];
-          this.page = this.pageService.findPageById(this.pageId);
+          this.pageService.findPageById(this.pageId).subscribe((data: any) => {
+            this.page = data;
+          });
         }
       );
   }
@@ -41,15 +43,18 @@ export class PageEditComponent implements OnInit {
     this.page['name'] = this.form.value.name;
     this.page['description'] = this.form.value.description;
     if (!exists) {
-      this.pageService.createPage(this.websiteId, this.page);
+      this.pageService.createPage(this.websiteId, this.page).subscribe(() => {
+      });
     } else {
-      this.pageService.updatePage(this.pageId, this.page);
+      this.pageService.updatePage(this.pageId, this.page).subscribe(() => {
+      });
     }
     return this.router.navigate(['/user/' + this.developerId + '/website/' + this.websiteId + '/page']);
   }
 
   onDelete() {
-    this.pageService.deletePage(this.pageId);
+    this.pageService.deletePage(this.pageId).subscribe(() => {
+    });
     return this.router.navigate(['/user/' + this.developerId + '/website/' + this.websiteId + '/page']);
   }
 }

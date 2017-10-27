@@ -25,25 +25,29 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (params: any) => {
           this.userId = params['uid'];
-          this.user = this.userService.findUserById(this.userId);
+          this.userService.findUserById(this.userId).subscribe((data: any) => {
+            this.user = data;
+          });
         }
       );
   }
 
   submit() {
-    const u = this.userService.findUserByUsername(this.form.value.username);
-    if (typeof u !== 'undefined' && u._id !== this.userId) {
+    this.userService.findUserByUsername(this.form.value.username).subscribe((data: any) => {
+      if (Object.keys(data).length !== 0 && data._id !== this.userId) {
+        this.errorFlag = true;
+        this.errorMsg = 'That username is already taken';
+        return;
+      }
+      this.user['username'] = this.form.value.username;
+      this.user['email'] = this.form.value.email;
+      this.user['firstName'] = this.form.value.firstName;
+      this.user['lastName'] = this.form.value.lastName;
+      this.userService.updateUser(this.userId, this.user).subscribe(() => {
+      });
+      this.errorMsg = 'User Successfully Updated!';
       this.errorFlag = true;
-      this.errorMsg = 'That username is already taken';
-      return;
-    }
-    this.user['username'] = this.form.value.username;
-    this.user['email'] = this.form.value.email;
-    this.user['firstName'] = this.form.value.firstName;
-    this.user['lastName'] = this.form.value.lastName;
-    this.userService.updateUser(this.userId, this.user);
-    this.errorMsg = 'User Successfully Updated!';
-    this.errorFlag = true;
-    return this.router.navigate(['/user', this.userId]);
+      return this.router.navigate(['/user', this.userId]);
+    });
   }
 }

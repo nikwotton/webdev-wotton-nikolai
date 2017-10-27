@@ -28,13 +28,15 @@ export class LoginComponent implements OnInit {
   login() {
     this.username = this.loginForm.value.username;
     this.password = this.loginForm.value.password;
-    this.user = this.userService.findUserByCredentials(this.username, this.password);
-    if (typeof this.user === 'undefined') {
-      this.errorFlag = true;
-      this.errorMsg = 'Username/Password combination doesn\'t exist';
-      return;
-    }
-    const link: string = '/user/' + this.user._id;
-    return this.router.navigate([link]);
+    this.userService.findUserByCredentials(this.username, this.password).subscribe((data: any) => {
+      this.user = data;
+      if (Object.keys(data).length === 0) {
+        this.errorFlag = true;
+        this.errorMsg = 'Username/Password combination doesn\'t exist';
+        return;
+      }
+      const link: string = '/user/' + this.user._id;
+      return this.router.navigate([link]);
+    });
   }
 }

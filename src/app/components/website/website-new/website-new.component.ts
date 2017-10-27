@@ -23,14 +23,17 @@ export class WebsiteNewComponent implements OnInit {
       .subscribe(
         (params: any) => {
           this.userId = params['uid'];
-          this.websites = this.websiteService.findWebsitesByUser(this.userId);
+          this.websiteService.findWebsitesByUser(this.userId).subscribe((data: any) => {
+            this.websites = data;
+          });
         }
       );
   }
 
   submit() {
     const website = {'name': this.form.value.name, 'description': this.form.value.description};
-    this.websiteService.createWebsite(this.userId, website);
+    this.websiteService.createWebsite(this.userId, website).subscribe(() => {
+    });
     return this.router.navigate(['user', this.userId, 'website']);
   }
 

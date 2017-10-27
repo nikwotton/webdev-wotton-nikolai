@@ -28,7 +28,8 @@ export class WidgetChooserComponent implements OnInit {
   }
 
   submit(type: string) {
-    return this.router.navigate(['user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget',
-      this.widgetService.createWidget(this.pageId, {'widgetType': type})._id]);
+    this.widgetService.createWidget(this.pageId, {'widgetType': type}).subscribe((data: any) => {
+      return this.router.navigate(['user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget', data._id]);
+    });
   }
 }

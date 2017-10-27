@@ -14,8 +14,8 @@ export class WebsiteEditComponent implements OnInit {
 
   userId: string;
   websiteId: string;
-  websites: any;
-  website: any;
+  websites: any = [];
+  website: any = {};
 
   constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -26,8 +26,12 @@ export class WebsiteEditComponent implements OnInit {
         (params: any) => {
           this.userId = params['uid'];
           this.websiteId = params['wid'];
-          this.websites = this.websiteService.findWebsitesByUser(this.userId);
-          this.website = this.websiteService.findWebsiteById(this.websiteId);
+          this.websiteService.findWebsitesByUser(this.userId).subscribe((data: any) => {
+            this.websites = data;
+          });
+          this.websiteService.findWebsiteById(this.websiteId).subscribe((data: any) => {
+            this.website = data;
+          });
         }
       );
   }
@@ -35,12 +39,14 @@ export class WebsiteEditComponent implements OnInit {
   submit() {
     this.website['name'] = this.form.value.name;
     this.website['description'] = this.form.value.description;
-    this.websiteService.updateWebsite(this.websiteId, this.website);
+    this.websiteService.updateWebsite(this.websiteId, this.website).subscribe(() => {
+    });
     return this.router.navigate(['user', this.userId, 'website']);
   }
 
   onDelete() {
-    this.websiteService.deleteWebsite(this.websiteId);
+    this.websiteService.deleteWebsite(this.websiteId).subscribe(() => {
+    });
     return this.router.navigate(['user', this.userId, 'website']);
   }
 

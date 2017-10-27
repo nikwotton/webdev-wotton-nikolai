@@ -26,7 +26,9 @@ export class WidgetImageComponent implements OnInit {
       this.websiteId = params['wid'];
       this.pageId = params['pid'];
       this.widgetId = params['wgid'];
-      this.widget = this.widgetService.findWidgetById(this.widgetId);
+      this.widgetService.findWidgetById(this.widgetId).subscribe((data: any) => {
+        this.widget = data;
+      });
     });
   }
 

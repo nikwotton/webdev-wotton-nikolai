@@ -15,9 +15,6 @@ import {PageListComponent} from './components/page/page-list/page-list.component
 import {WidgetChooserComponent} from './components/widget/widget-chooser/widget-chooser.component';
 import {WidgetEditComponent} from './components/widget/widget-edit/widget-edit.component';
 import {WidgetListComponent} from './components/widget/widget-list/widget-list.component';
-import {WidgetHeaderComponent} from './components/widget/widget-edit/widget-header/widget-header.component';
-import {WidgetImageComponent} from './components/widget/widget-edit/widget-image/widget-image.component';
-import {WidgetYoutubeComponent} from './components/widget/widget-edit/widget-youtube/widget-youtube.component';
 import {ProfileComponent} from './components/user/profile/profile.component';
 
 
@@ -35,7 +32,7 @@ const APP_ROUTES: Routes = [
   {path: 'user/:uid/website/:wid/page/:pid', component: PageEditComponent},
   {path: 'user/:uid/website/:wid/page/:pid/widget', component: WidgetListComponent},
   {path: 'user/:uid/website/:wid/page/:pid/widget/new', component: WidgetChooserComponent},
-  {path: 'user/:uid/website/:wid/page/:pid/widget/:wgid', component: WidgetEditComponent},
+  {path: 'user/:uid/website/:wid/page/:pid/widget/:wgid', component: WidgetEditComponent}
 ];
 
 // Export the routes as module providers

@@ -15,10 +15,11 @@
              class="form-control"
              id="username"
              ngModel
+             minlength="3"
              required
              #username="ngModel" />
       <span class="help-block" *ngIf="username.invalid && username.touched">
-        Please enter a username!
+        Please enter a username at least 3 characters long!
       </span>
     </div>
 

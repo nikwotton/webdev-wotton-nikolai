@@ -13,7 +13,7 @@ export class WidgetEditComponent implements OnInit {
   websiteId: string;
   pageId: string;
   widgetId: string;
-  widget: any;
+  widget = {};
 
   constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -26,15 +26,16 @@ export class WidgetEditComponent implements OnInit {
           this.websiteId = params['wid'];
           this.pageId = params['pid'];
           this.widgetId = params['wgid'];
-          this.widget = this.widgetService.findWidgetById(this.widgetId);
-          console.log(this.widget);
+          this.widgetService.findWidgetById(this.widgetId).subscribe((data: any) => {
+            this.widget = data;
+          });
         }
       );
   }
 
   onDelete() {
-    this.widgetService.deleteWidget(this.widgetId);
+    this.widgetService.deleteWidget(this.widgetId).subscribe(() => {
+    });
     this.router.navigate(['user', this.developerId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
   }
-
 }

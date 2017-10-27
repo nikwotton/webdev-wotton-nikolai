@@ -220,7 +220,7 @@ var APP_ROUTES = [
     { path: 'user/:uid/website/:wid/page/:pid', component: __WEBPACK_IMPORTED_MODULE_7__components_page_page_edit_page_edit_component__["a" /* PageEditComponent */] },
     { path: 'user/:uid/website/:wid/page/:pid/widget', component: __WEBPACK_IMPORTED_MODULE_11__components_widget_widget_list_widget_list_component__["a" /* WidgetListComponent */] },
     { path: 'user/:uid/website/:wid/page/:pid/widget/new', component: __WEBPACK_IMPORTED_MODULE_9__components_widget_widget_chooser_widget_chooser_component__["a" /* WidgetChooserComponent */] },
-    { path: 'user/:uid/website/:wid/page/:pid/widget/:wgid', component: __WEBPACK_IMPORTED_MODULE_10__components_widget_widget_edit_widget_edit_component__["a" /* WidgetEditComponent */] },
+    { path: 'user/:uid/website/:wid/page/:pid/widget/:wgid', component: __WEBPACK_IMPORTED_MODULE_10__components_widget_widget_edit_widget_edit_component__["a" /* WidgetEditComponent */] }
 ];
 // Export the routes as module providers
 var Routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */].forRoot(APP_ROUTES);
@@ -310,7 +310,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/page/page-edit/page-edit.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\"\n         class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>Edit Page</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link\">\n        <span class=\"glyphicon glyphicon-ok\"></span>\n      </button>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container\">\n  <div *ngIf=\"(name.invalid && name.touched) || (title.invalid && title.touched)\"\n       class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" [ngModel]=\"page['name']\" ngModel required name=\"name\" type=\"text\"\n             class=\"form-control\" id=\"name\"\n             placeholder=\"Page Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Page Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"title\">Title</label>\n      <input #title=\"ngModel\" [ngModel]=\"page['description']\" ngModel required name=\"title\"\n             type=\"text\" class=\"form-control\"\n             id=\"title\" placeholder=\"Page Title\">\n    </div>\n    <span class=\"help-block\" *ngIf=\"title.invalid && title.touched\">\n      Please enter a Page Title!\n    </span>\n    <button (click)=\"onDelete()\" class=\"btn btn-danger button-top-margin form-control\"\n            type=\"button\">\n      Delete\n    </button>\n  </form>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['../../../..']\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n  </div>\n</nav>\n"
+module.exports = "<nav class=\"navbar navbar-default navbar-fixed-top\">\n  <div class=\"container-fluid\">\n\n    <!--back mark-->\n    <p class=\"navbar-text pull-left\">\n      <a [routerLink]=\"['..']\"\n         class=\"navbar-link\"><span\n        class=\"glyphicon glyphicon-chevron-left\"></span></a>\n    </p>\n\n    <!--heading on the nav bar-->\n    <p class=\"navbar-header pull-left\">\n      <a class=\"navbar-brand thick\">\n        <b>Edit Page</b>\n      </a>\n    </p>\n\n    <!--plus mark-->\n    <p class=\"navbar-text pull-right\">\n      <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"navbar-link\">\n        <span class=\"glyphicon glyphicon-ok\"></span>\n      </button>\n    </p>\n\n  </div>\n</nav>\n\n<div class=\"container\">\n  <div *ngIf=\"(name.invalid && name.touched) || (description.invalid && description.touched)\"\n       class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"name\">Name</label>\n      <input #name=\"ngModel\" [ngModel]=\"page['name']\" ngModel required name=\"name\" type=\"text\"\n             class=\"form-control\" id=\"name\"\n             placeholder=\"Page Name\">\n      <span class=\"help-block\" *ngIf=\"name.invalid && name.touched\">\n        Please enter a Page Name!\n      </span>\n    </div>\n    <div class=\"form-group\">\n      <label for=\"description\">Title</label>\n      <input #description=\"ngModel\" [ngModel]=\"page['description']\" ngModel required name=\"description\"\n             type=\"text\" class=\"form-control\"\n             id=\"description\" placeholder=\"Page Title\">\n    </div>\n    <span class=\"help-block\" *ngIf=\"description.invalid && description.touched\">\n      Please enter a Page Title!\n    </span>\n    <button (click)=\"onDelete()\" class=\"btn btn-danger button-top-margin form-control\"\n            type=\"button\">\n      Delete\n    </button>\n  </form>\n</div>\n\n<!-- Footer -->\n<nav class=\"navbar navbar-default navbar-fixed-bottom\">\n  <div class=\"container-fluid\">\n    <p class=\"navbar-text pull-right\">\n      <a [routerLink]=\"['../../../..']\"><span class=\"glyphicon glyphicon-user\"></span></a>\n    </p>\n  </div>\n</nav>\n"
 
 /***/ }),
 
@@ -341,6 +341,7 @@ var PageEditComponent = (function () {
         this.pageService = pageService;
         this.activatedRoute = activatedRoute;
         this.router = router;
+        this.page = {};
         this.errorMsg = 'Please enter a name and title!';
     }
     PageEditComponent.prototype.ngOnInit = function () {
@@ -350,7 +351,9 @@ var PageEditComponent = (function () {
             _this.developerId = params['uid'];
             _this.websiteId = params['wid'];
             _this.pageId = params['pid'];
-            _this.page = _this.pageService.findPageById(_this.pageId);
+            _this.pageService.findPageById(_this.pageId).subscribe(function (data) {
+                _this.page = data;
+            });
         });
     };
     PageEditComponent.prototype.submit = function () {
@@ -361,15 +364,18 @@ var PageEditComponent = (function () {
         this.page['name'] = this.form.value.name;
         this.page['description'] = this.form.value.description;
         if (!exists) {
-            this.pageService.createPage(this.websiteId, this.page);
+            this.pageService.createPage(this.websiteId, this.page).subscribe(function () {
+            });
         }
         else {
-            this.pageService.updatePage(this.pageId, this.page);
+            this.pageService.updatePage(this.pageId, this.page).subscribe(function () {
+            });
         }
         return this.router.navigate(['/user/' + this.developerId + '/website/' + this.websiteId + '/page']);
     };
     PageEditComponent.prototype.onDelete = function () {
-        this.pageService.deletePage(this.pageId);
+        this.pageService.deletePage(this.pageId).subscribe(function () {
+        });
         return this.router.navigate(['/user/' + this.developerId + '/website/' + this.websiteId + '/page']);
     };
     return PageEditComponent;
@@ -442,7 +448,7 @@ var PageListComponent = (function () {
         this.pageService = pageService;
         this.activatedRoute = activatedRoute;
         this.router = router;
-        this.pages = [{}];
+        this.pages = [];
     }
     PageListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -450,7 +456,9 @@ var PageListComponent = (function () {
             .subscribe(function (params) {
             _this.userId = params['uid'];
             _this.websiteId = params['wid'];
-            _this.pages = _this.pageService.findPagesByWebsiteId(_this.websiteId);
+            _this.pageService.findPagesByWebsiteId(_this.websiteId).subscribe(function (data) {
+                _this.pages = data;
+            });
         });
     };
     return PageListComponent;
@@ -533,7 +541,8 @@ var PageNewComponent = (function () {
     };
     PageNewComponent.prototype.submit = function () {
         var page = { 'name': this.form.value.name, 'description': this.form.value.title };
-        this.pageService.createPage(this.websiteId, page);
+        this.pageService.createPage(this.websiteId, page).subscribe(function () {
+        });
         return this.router.navigate(['/user/' + this.userId + '/website/' + this.websiteId + '/page']);
     };
     return PageNewComponent;
@@ -705,16 +714,19 @@ var LoginComponent = (function () {
     LoginComponent.prototype.ngOnInit = function () {
     };
     LoginComponent.prototype.login = function () {
+        var _this = this;
         this.username = this.loginForm.value.username;
         this.password = this.loginForm.value.password;
-        this.user = this.userService.findUserByCredentials(this.username, this.password);
-        if (typeof this.user === 'undefined') {
-            this.errorFlag = true;
-            this.errorMsg = 'Username/Password combination doesn\'t exist';
-            return;
-        }
-        var link = '/user/' + this.user._id;
-        return this.router.navigate([link]);
+        this.userService.findUserByCredentials(this.username, this.password).subscribe(function (data) {
+            _this.user = data;
+            if (Object.keys(data).length === 0) {
+                _this.errorFlag = true;
+                _this.errorMsg = 'Username/Password combination doesn\'t exist';
+                return;
+            }
+            var link = '/user/' + _this.user._id;
+            return _this.router.navigate([link]);
+        });
     };
     return LoginComponent;
 }());
@@ -797,24 +809,29 @@ var ProfileComponent = (function () {
         this.activatedRoute.params
             .subscribe(function (params) {
             _this.userId = params['uid'];
-            _this.user = _this.userService.findUserById(_this.userId);
+            _this.userService.findUserById(_this.userId).subscribe(function (data) {
+                _this.user = data;
+            });
         });
     };
     ProfileComponent.prototype.submit = function () {
-        var u = this.userService.findUserByUsername(this.form.value.username);
-        if (typeof u !== 'undefined' && u._id !== this.userId) {
-            this.errorFlag = true;
-            this.errorMsg = 'That username is already taken';
-            return;
-        }
-        this.user['username'] = this.form.value.username;
-        this.user['email'] = this.form.value.email;
-        this.user['firstName'] = this.form.value.firstName;
-        this.user['lastName'] = this.form.value.lastName;
-        this.userService.updateUser(this.userId, this.user);
-        this.errorMsg = 'User Successfully Updated!';
-        this.errorFlag = true;
-        return this.router.navigate(['/user', this.userId]);
+        var _this = this;
+        this.userService.findUserByUsername(this.form.value.username).subscribe(function (data) {
+            if (Object.keys(data).length !== 0 && data._id !== _this.userId) {
+                _this.errorFlag = true;
+                _this.errorMsg = 'That username is already taken';
+                return;
+            }
+            _this.user['username'] = _this.form.value.username;
+            _this.user['email'] = _this.form.value.email;
+            _this.user['firstName'] = _this.form.value.firstName;
+            _this.user['lastName'] = _this.form.value.lastName;
+            _this.userService.updateUser(_this.userId, _this.user).subscribe(function () {
+            });
+            _this.errorMsg = 'User Successfully Updated!';
+            _this.errorFlag = true;
+            return _this.router.navigate(['/user', _this.userId]);
+        });
     };
     return ProfileComponent;
 }());
@@ -857,7 +874,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/user/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div *ngIf=\"(username.invalid && username.touched) ||\n              (password.invalid && password.touched) ||\n              (verify.invalid && verify.touched) ||\n              errorFlag\" class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <h1>Register</h1>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"username\">Username</label>\n      <input placeholder=\"username\"\n             name=\"username\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"username\"\n             ngModel\n             required\n             #username=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"username.invalid && username.touched\">\n        Please enter a username!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"password\">Password</label>\n      <input placeholder=\"password\"\n             name=\"password\"\n             type=\"password\"\n             class=\"form-control\"\n             id=\"password\"\n             ngModel\n             required\n             #password=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"password.invalid && password.touched\">\n        Please enter a password!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"verify\">Verify Your Password</label>\n      <input placeholder=\"verify\"\n             name=\"verify\"\n             type=\"password\"\n             class=\"form-control\"\n             id=\"verify\"\n             ngModel\n             required\n             #verify=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"verify.invalid && verify.touched\">\n        Please verify your password!\n      </span>\n    </div>\n  </form>\n  <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"btn btn-primary btn-block\">Register</button>\n  <a [routerLink]=\"['/login']\" class=\"btn btn-danger btn-block\">Cancel</a>\n</div>\n"
+module.exports = "<div class=\"container\">\n  <div *ngIf=\"(username.invalid && username.touched) ||\n              (password.invalid && password.touched) ||\n              (verify.invalid && verify.touched) ||\n              errorFlag\" class=\"alert alert-danger\">\n    {{errorMsg}}\n  </div>\n  <h1>Register</h1>\n  <form #f=\"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"username\">Username</label>\n      <input placeholder=\"username\"\n             name=\"username\"\n             type=\"text\"\n             class=\"form-control\"\n             id=\"username\"\n             ngModel\n             minlength=\"3\"\n             required\n             #username=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"username.invalid && username.touched\">\n        Please enter a username at least 3 characters long!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"password\">Password</label>\n      <input placeholder=\"password\"\n             name=\"password\"\n             type=\"password\"\n             class=\"form-control\"\n             id=\"password\"\n             ngModel\n             required\n             #password=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"password.invalid && password.touched\">\n        Please enter a password!\n      </span>\n    </div>\n\n    <div class=\"form-group\">\n      <label for=\"verify\">Verify Your Password</label>\n      <input placeholder=\"verify\"\n             name=\"verify\"\n             type=\"password\"\n             class=\"form-control\"\n             id=\"verify\"\n             ngModel\n             required\n             #verify=\"ngModel\" />\n      <span class=\"help-block\" *ngIf=\"verify.invalid && verify.touched\">\n        Please verify your password!\n      </span>\n    </div>\n  </form>\n  <button [disabled]=\"!f.valid\" (click)=\"submit()\" class=\"btn btn-primary btn-block\">Register</button>\n  <a [routerLink]=\"['/login']\" class=\"btn btn-danger btn-block\">Cancel</a>\n</div>\n"
 
 /***/ }),
 
@@ -893,6 +910,7 @@ var RegisterComponent = (function () {
     RegisterComponent.prototype.ngOnInit = function () {
     };
     RegisterComponent.prototype.submit = function () {
+        var _this = this;
         var p1 = this.form.value.password;
         var p2 = this.form.value.verify;
         if (p1 !== p2) {
@@ -900,14 +918,19 @@ var RegisterComponent = (function () {
             this.errorMsg = 'Passwords do not match';
             return;
         }
-        var u = this.userService.findUserByUsername(this.form.value.username);
-        if (typeof u !== 'undefined') {
-            this.errorFlag = true;
-            this.errorMsg = 'Username already exists';
-            return;
-        }
-        var user = this.userService.createUser({ 'username': this.form.value.username, 'password': p1 });
-        return this.router.navigate(['/user', user._id]);
+        this.userService.findUserByUsername(this.form.value.username).subscribe(function (data) {
+            if (Object.keys(data).length > 0) {
+                _this.errorFlag = true;
+                _this.errorMsg = 'Username already exists';
+                return;
+            }
+            _this.userService.createUser({
+                'username': _this.form.value.username,
+                'password': p1
+            }).subscribe(function (data2) {
+                return _this.router.navigate(['/user', data2._id]);
+            });
+        });
     };
     return RegisterComponent;
 }());
@@ -981,6 +1004,8 @@ var WebsiteEditComponent = (function () {
         this.websiteService = websiteService;
         this.activatedRoute = activatedRoute;
         this.router = router;
+        this.websites = [];
+        this.website = {};
     }
     WebsiteEditComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -988,18 +1013,24 @@ var WebsiteEditComponent = (function () {
             .subscribe(function (params) {
             _this.userId = params['uid'];
             _this.websiteId = params['wid'];
-            _this.websites = _this.websiteService.findWebsitesByUser(_this.userId);
-            _this.website = _this.websiteService.findWebsiteById(_this.websiteId);
+            _this.websiteService.findWebsitesByUser(_this.userId).subscribe(function (data) {
+                _this.websites = data;
+            });
+            _this.websiteService.findWebsiteById(_this.websiteId).subscribe(function (data) {
+                _this.website = data;
+            });
         });
     };
     WebsiteEditComponent.prototype.submit = function () {
         this.website['name'] = this.form.value.name;
         this.website['description'] = this.form.value.description;
-        this.websiteService.updateWebsite(this.websiteId, this.website);
+        this.websiteService.updateWebsite(this.websiteId, this.website).subscribe(function () {
+        });
         return this.router.navigate(['user', this.userId, 'website']);
     };
     WebsiteEditComponent.prototype.onDelete = function () {
-        this.websiteService.deleteWebsite(this.websiteId);
+        this.websiteService.deleteWebsite(this.websiteId).subscribe(function () {
+        });
         return this.router.navigate(['user', this.userId, 'website']);
     };
     return WebsiteEditComponent;
@@ -1078,7 +1109,9 @@ var WebsiteListComponent = (function () {
         this.activatedRoute.params
             .subscribe(function (params) {
             _this.userId = params['uid'];
-            _this.websites = _this.websiteService.findWebsitesByUser(_this.userId);
+            _this.websiteService.findWebsitesByUser(_this.userId).subscribe(function (data) {
+                _this.websites = data;
+            });
         });
     };
     return WebsiteListComponent;
@@ -1155,12 +1188,15 @@ var WebsiteNewComponent = (function () {
         this.activatedRoute.params
             .subscribe(function (params) {
             _this.userId = params['uid'];
-            _this.websites = _this.websiteService.findWebsitesByUser(_this.userId);
+            _this.websiteService.findWebsitesByUser(_this.userId).subscribe(function (data) {
+                _this.websites = data;
+            });
         });
     };
     WebsiteNewComponent.prototype.submit = function () {
         var website = { 'name': this.form.value.name, 'description': this.form.value.description };
-        this.websiteService.createWebsite(this.userId, website);
+        this.websiteService.createWebsite(this.userId, website).subscribe(function () {
+        });
         return this.router.navigate(['user', this.userId, 'website']);
     };
     return WebsiteNewComponent;
@@ -1244,8 +1280,10 @@ var WidgetChooserComponent = (function () {
         });
     };
     WidgetChooserComponent.prototype.submit = function (type) {
-        return this.router.navigate(['user', this.userId, 'website', this.websiteId, 'page', this.pageId, 'widget',
-            this.widgetService.createWidget(this.pageId, { 'widgetType': type })._id]);
+        var _this = this;
+        this.widgetService.createWidget(this.pageId, { 'widgetType': type }).subscribe(function (data) {
+            return _this.router.navigate(['user', _this.userId, 'website', _this.websiteId, 'page', _this.pageId, 'widget', data._id]);
+        });
     };
     return WidgetChooserComponent;
 }());
@@ -1313,6 +1351,7 @@ var WidgetEditComponent = (function () {
         this.widgetService = widgetService;
         this.activatedRoute = activatedRoute;
         this.router = router;
+        this.widget = {};
     }
     WidgetEditComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1322,12 +1361,14 @@ var WidgetEditComponent = (function () {
             _this.websiteId = params['wid'];
             _this.pageId = params['pid'];
             _this.widgetId = params['wgid'];
-            _this.widget = _this.widgetService.findWidgetById(_this.widgetId);
-            console.log(_this.widget);
+            _this.widgetService.findWidgetById(_this.widgetId).subscribe(function (data) {
+                _this.widget = data;
+            });
         });
     };
     WidgetEditComponent.prototype.onDelete = function () {
-        this.widgetService.deleteWidget(this.widgetId);
+        this.widgetService.deleteWidget(this.widgetId).subscribe(function () {
+        });
         this.router.navigate(['user', this.developerId, 'website', this.websiteId, 'page', this.pageId, 'widget']);
     };
     return WidgetEditComponent;
@@ -1396,7 +1437,7 @@ var WidgetHeaderComponent = (function () {
         this.widgetService = widgetService;
         this.activatedRoute = activatedRoute;
         this.router = router;
-        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]();
+        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]();
         this.widget = {};
     }
     WidgetHeaderComponent.prototype.ngOnInit = function () {
@@ -1406,14 +1447,16 @@ var WidgetHeaderComponent = (function () {
             _this.websiteId = params['wid'];
             _this.pageId = params['pid'];
             _this.widgetId = params['wgid'];
-            _this.widget = _this.widgetService.findWidgetById(_this.widgetId);
+            _this.widgetService.findWidgetById(_this.widgetId).subscribe(function (data) {
+                _this.widget = data;
+            });
         });
     };
     return WidgetHeaderComponent;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Output */])(),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]) === "function" && _a || Object)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]) === "function" && _a || Object)
 ], WidgetHeaderComponent.prototype, "notify", void 0);
 WidgetHeaderComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
@@ -1479,7 +1522,7 @@ var WidgetImageComponent = (function () {
         this.widgetService = widgetService;
         this.activatedRoute = activatedRoute;
         this.router = router;
-        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]();
+        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]();
         this.widget = {};
     }
     WidgetImageComponent.prototype.ngOnInit = function () {
@@ -1489,14 +1532,16 @@ var WidgetImageComponent = (function () {
             _this.websiteId = params['wid'];
             _this.pageId = params['pid'];
             _this.widgetId = params['wgid'];
-            _this.widget = _this.widgetService.findWidgetById(_this.widgetId);
+            _this.widgetService.findWidgetById(_this.widgetId).subscribe(function (data) {
+                _this.widget = data;
+            });
         });
     };
     return WidgetImageComponent;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Output */])(),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]) === "function" && _a || Object)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]) === "function" && _a || Object)
 ], WidgetImageComponent.prototype, "notify", void 0);
 WidgetImageComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
@@ -1555,15 +1600,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var WidgetYoutubeComponent = (function () {
     function WidgetYoutubeComponent() {
-        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]();
+        this.notify = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]();
     }
     WidgetYoutubeComponent.prototype.ngOnInit = function () {
     };
     return WidgetYoutubeComponent;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* Output */])(),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["s" /* EventEmitter */]) === "function" && _a || Object)
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* EventEmitter */]) === "function" && _a || Object)
 ], WidgetYoutubeComponent.prototype, "notify", void 0);
 WidgetYoutubeComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
@@ -1637,7 +1682,9 @@ var WidgetListComponent = (function () {
             _this.userId = params['uid'];
             _this.websiteId = params['wid'];
             _this.pageId = params['pid'];
-            _this.widgets = _this.widgetService.findWidgetsByPageId(_this.pageId);
+            _this.widgetService.findWidgetsByPageId(_this.pageId).subscribe(function (data) {
+                _this.widgets = data;
+            });
         });
     };
     return WidgetListComponent;
@@ -1661,8 +1708,10 @@ var _a, _b, _c;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PageService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1675,13 +1724,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var PageService = (function () {
-    function PageService() {
-        this.pages = [
-            { '_id': '321', 'name': 'Post 1', 'websiteId': '456', 'description': 'Lorem' },
-            { '_id': '432', 'name': 'Post 2', 'websiteId': '456', 'description': 'Lorem' },
-            { '_id': '543', 'name': 'Post 3', 'websiteId': '456', 'description': 'Lorem' }
-        ];
+    function PageService(http) {
+        this.http = http;
+        this.baseUrl = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].baseUrl;
         this.api = {
             'createPage': this.createPage,
             'findPageById': this.findPageById,
@@ -1691,48 +1739,43 @@ var PageService = (function () {
         };
     }
     PageService.prototype.createPage = function (websiteId, page) {
-        page.websiteId = websiteId;
-        page._id = Math.random().toString();
-        this.pages.push(page);
-        return page;
+        return this.http.post(this.baseUrl + '/api/website/' + websiteId + '/page', page)
+            .map(function (res) {
+            return res.json();
+        });
     };
     PageService.prototype.findPagesByWebsiteId = function (websiteId) {
-        var ret = [];
-        for (var x = 0; x < this.pages.length; x++) {
-            if (this.pages[x].websiteId === websiteId) {
-                ret.push(this.pages[x]);
-            }
-        }
-        return ret;
+        return this.http.get(this.baseUrl + '/api/website/' + websiteId + '/page')
+            .map(function (res) {
+            return res.json();
+        });
     };
     PageService.prototype.findPageById = function (pageId) {
-        for (var x = 0; x < this.pages.length; x++) {
-            if (this.pages[x]._id === pageId) {
-                return this.pages[x];
-            }
-        }
+        return this.http.get(this.baseUrl + '/api/page/' + pageId)
+            .map(function (res) {
+            return res.json();
+        });
     };
     PageService.prototype.updatePage = function (pageId, page) {
-        for (var x = 0; x < this.pages.length; x++) {
-            if (this.pages[x]._id === pageId) {
-                this.pages[x] = page;
-            }
-        }
+        return this.http.put(this.baseUrl + '/api/page/' + pageId, page)
+            .map(function (res) {
+            return res.text();
+        });
     };
     PageService.prototype.deletePage = function (pageId) {
-        for (var x = 0; x < this.pages.length; x++) {
-            if (this.pages[x]._id === pageId) {
-                this.pages.splice(x, 1);
-            }
-        }
+        return this.http.delete(this.baseUrl + '/api/page/' + pageId)
+            .map(function (res) {
+            return res.text();
+        });
     };
     return PageService;
 }());
 PageService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], PageService);
 
+var _a;
 //# sourceMappingURL=page.service.client.js.map
 
 /***/ }),
@@ -1807,8 +1850,10 @@ var _a;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1821,42 +1866,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var UserService = (function () {
-    function UserService() {
-        this.users = [
-            {
-                _id: '123',
-                email: 'alice@wonderland.com',
-                username: 'alice',
-                password: 'alice',
-                firstName: 'Alice',
-                lastName: 'Wonder'
-            },
-            {
-                _id: '234',
-                email: 'bob@marley.com',
-                username: 'bob',
-                password: 'bob',
-                firstName: 'Bob',
-                lastName: 'Marley'
-            },
-            {
-                _id: '345',
-                email: 'charly@Garcia.com',
-                username: 'charly',
-                password: 'charly',
-                firstName: 'Charly',
-                lastName: 'Garcia'
-            },
-            {
-                _id: '456',
-                email: 'jose@annunzi.com',
-                username: 'jannunzi',
-                password: 'jannunzi',
-                firstName: 'Jose',
-                lastName: 'Annunzi'
-            }
-        ];
+    function UserService(http) {
+        this.http = http;
+        this.baseUrl = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].baseUrl;
         this.api = {
             'createUser': this.createUser,
             'findUserById': this.findUserById,
@@ -1867,52 +1882,49 @@ var UserService = (function () {
         };
     }
     UserService.prototype.createUser = function (user) {
-        user._id = Math.random().toString();
-        this.users.push(user);
-        return user;
+        return this.http.post(this.baseUrl + '/api/user', user)
+            .map(function (res) {
+            return res.json();
+        });
     };
     UserService.prototype.findUserById = function (userId) {
-        for (var x = 0; x < this.users.length; x++) {
-            if (this.users[x]._id === userId) {
-                return this.users[x];
-            }
-        }
+        return this.http.get(this.baseUrl + '/api/user/' + userId)
+            .map(function (res) {
+            return res.json();
+        });
     };
     UserService.prototype.findUserByUsername = function (username) {
-        for (var x = 0; x < this.users.length; x++) {
-            if (this.users[x].username === username) {
-                return this.users[x];
-            }
-        }
+        return this.http.get(this.baseUrl + '/api/user?username=' + username)
+            .map(function (res) {
+            return res.json();
+        });
     };
     UserService.prototype.findUserByCredentials = function (username, password) {
-        for (var x = 0; x < this.users.length; x++) {
-            if (this.users[x].username === username && this.users[x].password === password) {
-                return this.users[x];
-            }
-        }
+        return this.http.get(this.baseUrl + '/api/user?username=' + username + '&password=' + password)
+            .map(function (res) {
+            return res.json();
+        });
     };
     UserService.prototype.updateUser = function (userId, user) {
-        for (var x = 0; x < this.users.length; x++) {
-            if (this.users[x]._id === userId) {
-                this.users[x] = user;
-            }
-        }
+        return this.http.put(this.baseUrl + '/api/user/' + userId, user)
+            .map(function (res) {
+            return res.text();
+        });
     };
     UserService.prototype.deleteUser = function (userId) {
-        for (var x = 0; x < this.users.length; x++) {
-            if (this.users[x]._id === userId) {
-                this.users.splice(x, 1);
-            }
-        }
+        return this.http.delete(this.baseUrl + '/api/user/' + userId)
+            .map(function (res) {
+            return res.text();
+        });
     };
     return UserService;
 }());
 UserService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], UserService);
 
+var _a;
 //# sourceMappingURL=user.service.client.js.map
 
 /***/ }),
@@ -1922,8 +1934,10 @@ UserService = __decorate([
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WebsiteService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1936,17 +1950,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var WebsiteService = (function () {
-    function WebsiteService() {
-        this.websites = [
-            { '_id': '123', 'name': 'Facebook', 'developerId': '456', 'description': 'Lorem' },
-            { '_id': '234', 'name': 'Tweeter', 'developerId': '456', 'description': 'Lorem' },
-            { '_id': '456', 'name': 'Gizmodo', 'developerId': '456', 'description': 'Lorem' },
-            { '_id': '890', 'name': 'Go', 'developerId': '123', 'description': 'Lorem' },
-            { '_id': '567', 'name': 'Tic Tac Toe', 'developerId': '123', 'description': 'Lorem' },
-            { '_id': '678', 'name': 'Checkers', 'developerId': '123', 'description': 'Lorem' },
-            { '_id': '789', 'name': 'Chess', 'developerId': '234', 'description': 'Lorem' }
-        ];
+    function WebsiteService(http) {
+        this.http = http;
+        this.baseUrl = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].baseUrl;
         this.api = {
             'createWebsite': this.createWebsite,
             'findWebsitesByUser': this.findWebsitesByUser,
@@ -1956,48 +1965,43 @@ var WebsiteService = (function () {
         };
     }
     WebsiteService.prototype.createWebsite = function (userId, website) {
-        website._id = Math.random().toString();
-        website.developerId = userId;
-        this.websites.push(website);
-        return website;
+        return this.http.post(this.baseUrl + '/api/user/' + userId + '/website', website)
+            .map(function (res) {
+            return res.json();
+        });
     };
     WebsiteService.prototype.findWebsiteById = function (websiteId) {
-        for (var x = 0; x < this.websites.length; x++) {
-            if (this.websites[x]._id === websiteId) {
-                return this.websites[x];
-            }
-        }
+        return this.http.get(this.baseUrl + '/api/website/' + websiteId)
+            .map(function (res) {
+            return res.json();
+        });
     };
     WebsiteService.prototype.findWebsitesByUser = function (userId) {
-        var ret = [];
-        for (var x = 0; x < this.websites.length; x++) {
-            if (this.websites[x].developerId === userId) {
-                ret.push(this.websites[x]);
-            }
-        }
-        return ret;
+        return this.http.get(this.baseUrl + '/api/user/' + userId + '/website')
+            .map(function (res) {
+            return res.json();
+        });
     };
     WebsiteService.prototype.updateWebsite = function (websiteId, website) {
-        for (var x = 0; x < this.websites.length; x++) {
-            if (this.websites[x]._id === websiteId) {
-                this.websites[x] = website;
-            }
-        }
+        return this.http.put(this.baseUrl + '/api/website/' + websiteId, website)
+            .map(function (res) {
+            return res.text();
+        });
     };
     WebsiteService.prototype.deleteWebsite = function (websiteId) {
-        for (var x = 0; x < this.websites.length; x++) {
-            if (this.websites[x]._id === websiteId) {
-                this.websites.splice(x, 1);
-            }
-        }
+        return this.http.delete(this.baseUrl + '/api/website/' + websiteId)
+            .map(function (res) {
+            return res.text();
+        });
     };
     return WebsiteService;
 }());
 WebsiteService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], WebsiteService);
 
+var _a;
 //# sourceMappingURL=website.service.client.js.map
 
 /***/ }),
@@ -2007,8 +2011,10 @@ WebsiteService = __decorate([
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WidgetService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2021,19 +2027,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var WidgetService = (function () {
-    function WidgetService() {
-        this.widgets = [
-            { '_id': '123', 'widgetType': 'HEADING', 'pageId': '321', 'size': 2, 'text': 'GIZMODO' },
-            { '_id': '234', 'widgetType': 'HEADING', 'pageId': '321', 'size': 4, 'text': 'Lorem ipsum' },
-            { '_id': '345', 'widgetType': 'IMAGE', 'pageId': '321', 'width': '100%',
-                'url': 'http://lorempixel.com/400/200/' },
-            { '_id': '456', 'widgetType': 'HTML', 'pageId': '321', 'text': '<p>Lorem ipsum</p>' },
-            { '_id': '567', 'widgetType': 'HEADING', 'pageId': '321', 'size': 4, 'text': 'Lorem ipsum' },
-            { '_id': '678', 'widgetType': 'YOUTUBE', 'pageId': '321', 'width': '100%',
-                'url': 'https://youtu.be/AM2Ivdi9c4E' },
-            { '_id': '789', 'widgetType': 'HTML', 'pageId': '321', 'text': '<p>Lorem ipsum</p>' }
-        ];
+    function WidgetService(http) {
+        this.http = http;
+        this.baseUrl = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].baseUrl;
         this.api = {
             'createWidget': this.createWidget,
             'findWidgetById': this.findWidgetById,
@@ -2043,48 +2042,43 @@ var WidgetService = (function () {
         };
     }
     WidgetService.prototype.createWidget = function (pageId, widget) {
-        widget.pageId = pageId;
-        widget._id = Math.random().toString();
-        this.widgets.push(widget);
-        return widget;
+        return this.http.post(this.baseUrl + '/api/page/' + pageId + '/widget', widget)
+            .map(function (res) {
+            return res.json();
+        });
     };
     WidgetService.prototype.findWidgetsByPageId = function (pageId) {
-        var ret = [];
-        for (var x = 0; x < this.widgets.length; x++) {
-            if (this.widgets[x].pageId === pageId) {
-                ret.push(this.widgets[x]);
-            }
-        }
-        return ret;
+        return this.http.get(this.baseUrl + '/api/page/' + pageId + '/widget')
+            .map(function (res) {
+            return res.json();
+        });
     };
     WidgetService.prototype.findWidgetById = function (widgetId) {
-        for (var x = 0; x < this.widgets.length; x++) {
-            if (this.widgets[x]._id === widgetId) {
-                return this.widgets[x];
-            }
-        }
+        return this.http.get(this.baseUrl + '/api/widget/' + widgetId)
+            .map(function (res) {
+            return res.json();
+        });
     };
     WidgetService.prototype.updateWidget = function (widgetId, widget) {
-        for (var x = 0; x < this.widgets.length; x++) {
-            if (this.widgets[x]._id === widgetId) {
-                this.widgets[x] = widget;
-            }
-        }
+        return this.http.put(this.baseUrl + '/api/widget/' + widgetId, widget)
+            .map(function (res) {
+            return res.text();
+        });
     };
     WidgetService.prototype.deleteWidget = function (widgetId) {
-        for (var x = 0; x < this.widgets.length; x++) {
-            if (this.widgets[x]._id === widgetId) {
-                this.widgets.splice(x, 1);
-            }
-        }
+        return this.http.delete(this.baseUrl + '/api/widget/' + widgetId)
+            .map(function (res) {
+            return res.text();
+        });
     };
     return WidgetService;
 }());
 WidgetService = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], WidgetService);
 
+var _a;
 //# sourceMappingURL=widget.service.client.js.map
 
 /***/ }),

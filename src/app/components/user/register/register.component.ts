@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service.client';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
+import {isEmpty} from "rxjs/operator/isEmpty";
 
 @Component({
   selector: 'app-register',
@@ -29,14 +30,18 @@ export class RegisterComponent implements OnInit {
       this.errorMsg = 'Passwords do not match';
       return;
     }
-    const u = this.userService.findUserByUsername(this.form.value.username);
-    if (typeof u !== 'undefined') {
-      this.errorFlag = true;
-      this.errorMsg = 'Username already exists';
-      return;
-    }
-    const user = this.userService.createUser({'username': this.form.value.username, 'password': p1});
-    return this.router.navigate(['/user', user._id]);
+    this.userService.findUserByUsername(this.form.value.username).subscribe((data: any) => {
+      if (Object.keys(data).length > 0) {
+        this.errorFlag = true;
+        this.errorMsg = 'Username already exists';
+        return;
+      }
+      this.userService.createUser({
+        'username': this.form.value.username,
+        'password': p1
+      }).subscribe((data2: any) => {
+        return this.router.navigate(['/user', data2._id]);
+      });
+    });
   }
-
 }
