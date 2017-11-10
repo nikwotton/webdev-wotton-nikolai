@@ -43,6 +43,10 @@
     <app-widget-html #ref (notify)="onDelete()"></app-widget-html>
   </div>
 
+  <div *ngSwitchCase="'INPUT'">
+    <app-widget-text #ref (notify)="onDelete()"></app-widget-text>
+  </div>
+
 </div>
 
 <!-- Footer -->
