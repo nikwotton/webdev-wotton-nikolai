@@ -44,14 +44,14 @@ export class WebsiteService {
   updateWebsite(websiteId: string, website: any) {
     return this.http.put(this.baseUrl + '/api/website/' + websiteId, website)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 
   deleteWebsite(websiteId: string) {
     return this.http.delete(this.baseUrl + '/api/website/' + websiteId)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 }

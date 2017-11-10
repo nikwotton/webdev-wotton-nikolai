@@ -52,14 +52,14 @@ export class UserService {
   updateUser(userId: string, user: any) {
     return this.http.put(this.baseUrl + '/api/user/' + userId, user)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 
   deleteUser(userId: string) {
     return this.http.delete(this.baseUrl + '/api/user/' + userId)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 }

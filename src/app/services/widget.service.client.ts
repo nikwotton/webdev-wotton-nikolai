@@ -44,14 +44,14 @@ export class WidgetService {
   updateWidget(widgetId: string, widget: any) {
     return this.http.put(this.baseUrl + '/api/widget/' + widgetId, widget)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 
   deleteWidget(widgetId: string) {
     return this.http.delete(this.baseUrl + '/api/widget/' + widgetId)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 }

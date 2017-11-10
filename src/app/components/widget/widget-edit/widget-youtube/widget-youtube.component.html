@@ -9,14 +9,6 @@
       </span>
     </div>
     <div class="form-group">
-      <label for="text">Text</label>
-      <input #text="ngModel" [ngModel]="widget['text']" ngModel required name="text" type="text"
-             class="form-control" id="text" placeholder="Widget Text">
-      <span class="help-block" *ngIf="text.invalid && text.touched">
-        Please enter Widget Text!
-      </span>
-    </div>
-    <div class="form-group">
       <label for="url">URL</label>
       <input #url="ngModel" [ngModel]="widget['url']" ngModel name="url" type="url"
              class="form-control" id="url" required placeholder="Widget Url">
@@ -27,19 +19,10 @@
     <div class="form-group">
       <label for="width">Width</label>
       <input #width="ngModel" [ngModel]="widget['width']" ngModel required name="width"
-             type="number"
+             type="text"
              class="form-control" id="width" placeholder="Widget Width">
       <span class="help-block" *ngIf="width.invalid && width.touched">
         Please enter a width!
-      </span>
-    </div>
-    <div class="form-group">
-      <label for="height">Height</label>
-      <input #height="ngModel" [ngModel]="widget['height']" ngModel required name="height"
-             type="number"
-             class="form-control" id="height" placeholder="Widget height">
-      <span class="help-block" *ngIf="height.invalid && height.touched">
-        Please enter a height!
       </span>
     </div>
     <button (click)="this.notify.emit()"

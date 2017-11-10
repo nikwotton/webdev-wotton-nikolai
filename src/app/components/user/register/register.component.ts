@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service.client';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
-import {isEmpty} from "rxjs/operator/isEmpty";
 
 @Component({
   selector: 'app-register',
@@ -31,7 +30,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.userService.findUserByUsername(this.form.value.username).subscribe((data: any) => {
-      if (Object.keys(data).length > 0) {
+      if (data != null) {
         this.errorFlag = true;
         this.errorMsg = 'Username already exists';
         return;

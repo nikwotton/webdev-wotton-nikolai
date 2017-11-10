@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.password = this.loginForm.value.password;
     this.userService.findUserByCredentials(this.username, this.password).subscribe((data: any) => {
       this.user = data;
-      if (Object.keys(data).length === 0) {
+      if (data == null) {
         this.errorFlag = true;
         this.errorMsg = 'Username/Password combination doesn\'t exist';
         return;

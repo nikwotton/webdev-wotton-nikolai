@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
 
   submit() {
     this.userService.findUserByUsername(this.form.value.username).subscribe((data: any) => {
-      if (Object.keys(data).length !== 0 && data._id !== this.userId) {
+      if (data != null && data._id !== this.userId) {
         this.errorFlag = true;
         this.errorMsg = 'That username is already taken';
         return;

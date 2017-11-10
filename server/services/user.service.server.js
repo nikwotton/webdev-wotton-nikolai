@@ -1,38 +1,4 @@
-module.exports = function (app) {
-  let users = [
-    {
-      _id: '123',
-      email: 'alice@wonderland.com',
-      username: 'alice',
-      password: 'alice',
-      firstName: 'Alice',
-      lastName: 'Wonder'
-    },
-    {
-      _id: '234',
-      email: 'bob@marley.com',
-      username: 'bob',
-      password: 'bob',
-      firstName: 'Bob',
-      lastName: 'Marley'
-    },
-    {
-      _id: '345',
-      email: 'charly@Garcia.com',
-      username: 'charly',
-      password: 'charly',
-      firstName: 'Charly',
-      lastName: 'Garcia'
-    },
-    {
-      _id: '456',
-      email: 'jose@annunzi.com',
-      username: 'jannunzi',
-      password: 'jannunzi',
-      firstName: 'Jose',
-      lastName: 'Annunzi'
-    }
-  ];
+module.exports = function (app, model, websiteService) {
   app.post('/api/user', createUser);
   app.get('/api/user/:uid', findUserById);
   app.put('/api/user/:uid', updateUser);
@@ -48,60 +14,68 @@ module.exports = function (app) {
   });
 
   function createUser(req, res) {
-    req.body['_id'] = Math.random().toString();
-    users.push(req.body);
-    res.json(req.body);
+    model
+      .create(req.body, function (err, user) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
   }
 
   function findUserByCredentials(req, res) {
-    for (let x = 0; x < users.length; x++) {
-      if (users[x].username === req.query.username && users[x].password === req.query.password) {
-        res.json(users[x]);
-        return;
-      }
-    }
-    res.json({});
+    model
+      .findOne({username: req.query.username, password: req.query.password}, function (err, user) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
   }
 
   function findUserByUsername(req, res) {
-    for (let x = 0; x < users.length; x++) {
-      if (users[x].username === req.query.username) {
-        res.json(users[x]);
-        return;
-      }
-    }
-    res.json({});
+    model
+      .findOne({username: req.query.username}, function (err, user) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
   }
 
   function findUserById(req, res) {
-    for (let x = 0; x < users.length; x++) {
-      if (users[x]._id === req.params.uid) {
-        res.json(users[x]);
-        return;
-      }
-    }
-    res.json({});
+    model
+      .findById(req.params.uid, function (err, user) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
   }
 
   function updateUser(req, res) {
-    for (let x = 0; x < users.length; x++) {
-      if (users[x]._id === req.params.uid) {
-        users[x] = req.body;
-        res.send('Success!');
-        return;
-      }
-    }
-    res.send('Fail!');
+    model
+      .findByIdAndUpdate(req.params.uid, req.body, function (err, user) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
   }
 
   function deleteUser(req, res) {
-    for (let x = 0; x < users.length; x++) {
-      if (users[x]._id === req.params.userId) {
-        users.splice(x, 1);
-        res.send('Success!');
-        return;
-      }
-    }
-    res.send('Fail!');
+    model
+      .findByIdAndRemove(req.params.uid, function (err, user) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.json(user);
+        }
+      });
   }
 };

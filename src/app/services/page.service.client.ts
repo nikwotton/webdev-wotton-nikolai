@@ -44,14 +44,14 @@ export class PageService {
   updatePage(pageId: string, page: any) {
     return this.http.put(this.baseUrl + '/api/page/' + pageId, page)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 
   deletePage(pageId: string) {
     return this.http.delete(this.baseUrl + '/api/page/' + pageId)
       .map((res: Response) => {
-        return res.text();
+        return res.json();
       });
   }
 }

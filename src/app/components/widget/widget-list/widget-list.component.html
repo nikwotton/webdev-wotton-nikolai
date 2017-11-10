@@ -25,9 +25,9 @@
 
 <div class="container-fluid">
   <ul class="list-group">
-    <li class="list-group-item borderless header-text row" *ngFor="let widget of widgets">
+    <li class="list-group-item borderless row" *ngFor="let widget of widgets">
       <div class="inline truncate col-xs-8">
-        <div [ngSwitch]="widget.widgetType">
+        <div [ngSwitch]="widget.type">
           <div *ngSwitchCase="'HEADER'">
             <div [ngSwitch]="widget.size">
               <div *ngSwitchCase="1">
@@ -62,8 +62,8 @@
               </div>
             </div>
           </div>
-          <div *ngSwitchCase="'YOUTUBE'">
-            <iframe width="{{widget.width}}" height="{{widget.height}}"
+          <div *ngSwitchCase="'YOUTUBE'" class="youtube-widget">
+            <iframe width="{{widget.width}}" height="{{widget.width}}"
                     [src]='sanitizer.bypassSecurityTrustResourceUrl(widget.url)' frameborder="0"
                     gesture="media" allowfullscreen></iframe>
           </div>
@@ -72,7 +72,7 @@
                  src="{{widget.url}}">
           </div>
           <div *ngSwitchCase="'HTML'">
-            {{widget.text}}
+            <div [innerHTML]="widget.text"></div>
           </div>
         </div>
       </div>

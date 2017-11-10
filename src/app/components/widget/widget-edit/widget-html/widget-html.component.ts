@@ -1,14 +1,14 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {ActivatedRoute} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
 @Component({
-  selector: 'app-widget-youtube',
-  templateUrl: './widget-youtube.component.html',
-  styleUrls: ['./widget-youtube.component.css']
+  selector: 'app-widget-html',
+  templateUrl: './widget-html.component.html',
+  styleUrls: ['./widget-html.component.css']
 })
-export class WidgetYoutubeComponent implements OnInit {
+export class WidgetHTMLComponent implements OnInit {
 
   @ViewChild('f') form: NgForm;
 
@@ -37,8 +37,8 @@ export class WidgetYoutubeComponent implements OnInit {
 
   getWidget() {
     this.widget['name'] = this.form.value.name;
-    this.widget['url'] = this.form.value.url;
-    this.widget['width'] = this.form.value.width;
+    this.widget['text'] = this.form.value.text;
+    console.log(this.widget['text']);
     return this.widget;
   }
 }

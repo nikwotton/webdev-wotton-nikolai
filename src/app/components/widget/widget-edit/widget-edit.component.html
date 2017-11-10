@@ -25,7 +25,7 @@
   </div>
 </nav>
 
-<div [ngSwitch]="widget.widgetType">
+<div [ngSwitch]="widget.type">
 
   <div *ngSwitchCase="'HEADER'">
     <app-widget-header #ref (notify)="onDelete()"></app-widget-header>
@@ -37,6 +37,10 @@
 
   <div *ngSwitchCase="'YOUTUBE'">
     <app-widget-youtube #ref (notify)="onDelete()"></app-widget-youtube>
+  </div>
+
+  <div *ngSwitchCase="'HTML'">
+    <app-widget-html #ref (notify)="onDelete()"></app-widget-html>
   </div>
 
 </div>
