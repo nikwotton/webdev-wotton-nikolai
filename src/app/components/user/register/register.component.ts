@@ -29,18 +29,19 @@ export class RegisterComponent implements OnInit {
       this.errorMsg = 'Passwords do not match';
       return;
     }
-    this.userService.findUserByUsername(this.form.value.username).subscribe((data: any) => {
-      if (data != null) {
-        this.errorFlag = true;
-        this.errorMsg = 'Username already exists';
-        return;
-      }
-      this.userService.createUser({
-        'username': this.form.value.username,
-        'password': p1
-      }).subscribe((data2: any) => {
-        return this.router.navigate(['/user', data2._id]);
-      });
-    });
+    this.userService.register(this.form.value.username, p1)
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/profile']);
+        },
+        (error: any) => {
+          this.errorFlag = true;
+          if (error._body !== '') {
+            this.errorMsg = error._body;
+          } else {
+            this.errorMsg = 'Username ' + this.form.value.username + ' is already taken';
+          }
+        }
+      );
   }
 }

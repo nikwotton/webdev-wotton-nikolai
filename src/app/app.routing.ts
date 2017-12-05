@@ -16,14 +16,14 @@ import {WidgetChooserComponent} from './components/widget/widget-chooser/widget-
 import {WidgetEditComponent} from './components/widget/widget-edit/widget-edit.component';
 import {WidgetListComponent} from './components/widget/widget-list/widget-list.component';
 import {ProfileComponent} from './components/user/profile/profile.component';
-
+import {AuthGuard} from './services/auth-guard.service';
 
 const APP_ROUTES: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'default', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'user/:uid', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'user/:uid/website', component: WebsiteListComponent},
   {path: 'user/:uid/website/new', component: WebsiteNewComponent},
   {path: 'user/:uid/website/:wid', component: WebsiteEditComponent},

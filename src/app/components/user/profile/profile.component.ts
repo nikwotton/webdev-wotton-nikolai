@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../services/user.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
+import {SharedService} from '../../../services/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,23 +14,17 @@ export class ProfileComponent implements OnInit {
   @ViewChild('f') form: NgForm;
 
   userId: string;
-  user = {};
+  user: any;
   errorFlag = false;
   errorMsg = 'You have an error';
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private userService: UserService, private activatedRoute: ActivatedRoute,
+              private router: Router, private sharedService: SharedService) {
   }
 
   ngOnInit() {
-    this.activatedRoute.params
-      .subscribe(
-        (params: any) => {
-          this.userId = params['uid'];
-          this.userService.findUserById(this.userId).subscribe((data: any) => {
-            this.user = data;
-          });
-        }
-      );
+    this.user = this.sharedService.user;
+    this.userId = this.user._id;
   }
 
   submit() {
@@ -47,7 +42,14 @@ export class ProfileComponent implements OnInit {
       });
       this.errorMsg = 'User Successfully Updated!';
       this.errorFlag = true;
-      return this.router.navigate(['/user', this.userId]);
+      return this.router.navigate(['/profile']);
     });
+  }
+
+  logout() {
+    this.userService.logout()
+      .subscribe(
+        (data: any) => this.router.navigate(['/login'])
+      );
   }
 }

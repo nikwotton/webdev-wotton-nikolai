@@ -30,6 +30,8 @@ import {WebsiteService} from './services/website.service.client';
 import {PageService} from './services/page.service.client';
 import {WidgetService} from './services/widget.service.client';
 import {QuillEditorModule} from 'ngx-quill-editor';
+import {SharedService} from './services/shared.service';
+import {AuthGuard} from './services/auth-guard.service';
 
 @NgModule({
   // Declare components here
@@ -63,7 +65,7 @@ import {QuillEditorModule} from 'ngx-quill-editor';
     QuillEditorModule
   ],
   // Client Side services here
-  providers: [UserService, WebsiteService, PageService, WidgetService],
+  providers: [UserService, WebsiteService, PageService, WidgetService, SharedService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
