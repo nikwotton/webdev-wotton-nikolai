@@ -38,7 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-const port = '3100';// process.env.PORT || '3100';
+const port = process.env.PORT || '3100';
 app.set('port', port);
 
 
