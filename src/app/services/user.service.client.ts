@@ -44,7 +44,6 @@ export class UserService {
   }
 
   findUserByUsername(username: string) {
-    console.log('baseURL: ' + this.baseUrl);
     return this.http.get(this.baseUrl + '/api/user?username=' + username)
       .map((res: Response) => {
         return res.json();
