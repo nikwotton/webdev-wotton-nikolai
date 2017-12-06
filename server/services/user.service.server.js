@@ -150,10 +150,7 @@ module.exports = function (app, model) {
           res.status(400).send(err);
         } else {
           const user = req.body;
-          console.log(user.password);
-          console.log(app.get(sessionStorage));
           user.password = bcrypt.hashSync(user.password);
-          console.log(user.password);
           model
             .create(user, function (err, user) {
               if (err) {
