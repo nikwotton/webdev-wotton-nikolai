@@ -147,8 +147,6 @@ module.exports = function (app, model) {
     model
       .findOne({username: req.body.username}, function (err, user) {
         if (err || user !== null) {
-          console.log(err);
-          console.log(user);
           res.status(400).send(err);
         } else {
           const user = req.body;
@@ -156,10 +154,8 @@ module.exports = function (app, model) {
           model
             .create(user, function (err, user) {
               if (err) {
-                console.log(err);
                 res.status(400).send(err);
               } else {
-                console.log(user);
                 if (user) {
                   req.login(user, function (err) {
                     if (err) {

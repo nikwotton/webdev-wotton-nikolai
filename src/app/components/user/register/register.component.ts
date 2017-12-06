@@ -37,7 +37,6 @@ export class RegisterComponent implements OnInit {
         (error: any) => {
           this.errorFlag = true;
           if (error._body !== '') {
-            console.log(error);
             this.errorMsg = error._body;
           } else {
             this.errorMsg = 'Username ' + this.form.value.username + ' is already taken';
