@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl : '2134'
+  baseUrl : 'https://webdev-wotton-nikolai.herokuapp.com:3100'
 };
