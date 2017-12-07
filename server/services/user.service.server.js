@@ -36,7 +36,7 @@ module.exports = function (app, model) {
   app.get('/api/loggedIn', loggedin);
   app.get('/facebook/login', passport.authenticate('facebook', {scope: 'email'}));
   app.get('/auth/facebook/callback', passport.authenticate('facebook',
-    {successRedirect: '/#/profile', failureRedirect: '/#/login'}));
+    {successRedirect: '/profile', failureRedirect: '/login'}));
 
   function createUser(req, res) {
     model

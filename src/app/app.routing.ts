@@ -19,9 +19,9 @@ import {ProfileComponent} from './components/user/profile/profile.component';
 import {AuthGuard} from './services/auth-guard.service';
 
 const APP_ROUTES: Routes = [
-  {path: '', component: LoginComponent},
+  {path: '', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'default', component: LoginComponent},
+  {path: 'default', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: 'user/:uid/website', component: WebsiteListComponent},
